@@ -2,3 +2,4 @@
 /Integer Arithmetic/manifest.mf
 /Integer Arithmetic/.git
 /build/
+*.properties

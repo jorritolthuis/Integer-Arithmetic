@@ -63,8 +63,14 @@ public class InputHandler {
                 continue;
             }
             
+            String firstWord;
+            
             Scanner lineScanner = new Scanner(line);
-            String firstWord = lineScanner.next();
+            if(lineScanner.hasNext()) {
+                firstWord = lineScanner.next();
+            } else {
+                continue;
+            }
             
             //If radix then set it
             if(firstWord.equals(isRadix)) {
@@ -72,9 +78,9 @@ public class InputHandler {
             }
             
             //If operation then set it
-            for (int i = 0; i < operations.length; i++) {
-                if(firstWord.equals(operations[i])) {
-                    operation = operationToChar(operations[i]);
+            for (String op : operations) {
+                if (firstWord.equals(op)) {
+                    operation = operationToChar(op);
                 }
             }
             
