@@ -1,8 +1,8 @@
 package main;
 
-public class Add extends Operation {
+public class Karatsuba extends Operation {
 
-    public Add(BigInt x, BigInt y) {
+    public Karatsuba(BigInt x, BigInt y) {
         super(x, y);
     }
 

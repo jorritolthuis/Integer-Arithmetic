@@ -1,8 +1,8 @@
 package main;
 
-public class Add extends Operation {
+public class Subtract extends Operation {
 
-    public Add(BigInt x, BigInt y) {
+    public Subtract(BigInt x, BigInt y) {
         super(x, y);
     }
 
