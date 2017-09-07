@@ -4,6 +4,7 @@ import java.lang.StringBuilder;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.File;
 
 public class OutputHandler {
     StringBuilder output;
@@ -15,8 +16,9 @@ public class OutputHandler {
     int nAdd;
     int nMultiply;
     
-    public OutputHandler(BigInt output, String filename) {
+    public OutputHandler(BigInt output, File file) {
         this.result = output;
+        filename = file.getPath();
     }
     
     public void giveOutput(){

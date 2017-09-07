@@ -42,7 +42,7 @@ public class IntegerArithmetic {
         result = operation.compute();
         
         // Give output
-        outputHandler = new OutputHandler(result, inputHandler.file.toString());
+        outputHandler = new OutputHandler(result, inputHandler.file);
     }
     
 }
