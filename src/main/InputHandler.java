@@ -37,22 +37,21 @@ public class InputHandler {
                 if(args.length >= i + 2) {
                     file = new File(args[++i]);
                     scanner = new Scanner(file);
-                    handleFile();
                 } else {
                     throw new Error("No input file!");
                 }
             } else {
                 scanner = new Scanner(System.in);
-                handleSystemIn();
             }
         }
+        handle();
     }
 
-    private void handleFile() {
+    private void handle() {
         String line;
         String bigInt1 = "";
         String bigInt2 = "";
-        char sign;
+        boolean sign = true;
         int radix = 10;
         
         while(scanner.hasNextLine()) {
@@ -77,19 +76,32 @@ public class InputHandler {
                 }
             }
             
+            //Set x
             if(firstWord.equals(isX)) {
-                lineScanner.next();
+                String integer = lineScanner.next();
+                sign = getSign(integer);
+                bigInt1 = (!sign) ? removeSign(integer) : integer;
             }
             
+            //Set y
             if(firstWord.equals(isY)) {
-                lineScanner.next();
+                String integer = lineScanner.next();
+                sign = getSign(integer);
+                bigInt2 = (!sign) ? removeSign(integer) : integer;
             }
         }
         
         input = new BigInt[]{
-            new BigInt(bigInt1, operation, radix),
-            new BigInt(bigInt2, operation, radix)
+            new BigInt(bigInt1, sign, radix),
+            new BigInt(bigInt2, sign, radix)
         };
+    }
+    
+    private boolean getSign(String integer) {
+        if(integer.startsWith("-")) {
+            return true;
+        }
+        return false;
     }
     
     private char operationToChar(String operation) {
@@ -110,11 +122,11 @@ public class InputHandler {
         return op;
     }
 
-    private void handleSystemIn() {
-        
-    }
-
     public BigInt[] getInput() {
         return input;
+    }
+
+    private String removeSign(String integer) {
+        return integer.substring(1);
     }
 }
