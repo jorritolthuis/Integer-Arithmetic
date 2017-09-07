@@ -40,9 +40,10 @@ public class InputHandler {
                 } else {
                     throw new Error("No input file!");
                 }
-            } else {
-                scanner = new Scanner(System.in);
             }
+        }
+        if(args.length == 0) {
+            scanner = new Scanner(System.in);
         }
         handle();
     }
@@ -53,6 +54,7 @@ public class InputHandler {
         String bigInt2 = "";
         boolean sign = true;
         int radix = 10;
+        String answer = "";
         
         while(scanner.hasNextLine()) {
             line = scanner.nextLine();
@@ -89,6 +91,12 @@ public class InputHandler {
                 sign = getSign(integer);
                 bigInt2 = (!sign) ? removeSign(integer) : integer;
             }
+            
+            //Set answer
+            if(firstWord.equals(isAnswer)) {
+                answer = lineScanner.next();
+                break;
+            }
         }
         
         input = new BigInt[]{
@@ -99,9 +107,9 @@ public class InputHandler {
     
     private boolean getSign(String integer) {
         if(integer.startsWith("-")) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
     
     private char operationToChar(String operation) {
@@ -127,6 +135,7 @@ public class InputHandler {
     }
 
     private String removeSign(String integer) {
+        System.out.println(integer.substring(1));
         return integer.substring(1);
     }
 }
