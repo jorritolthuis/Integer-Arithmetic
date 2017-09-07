@@ -43,6 +43,7 @@ public class IntegerArithmetic {
         
         // Give output
         outputHandler = new OutputHandler(result, inputHandler.file);
+        outputHandler.giveOutput();
     }
     
 }
