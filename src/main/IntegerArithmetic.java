@@ -1,21 +1,48 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
-/**
- *
- * @author s157710
- */
+import java.io.FileNotFoundException;
+
 public class IntegerArithmetic {
 
-    /**
-     * @param args the command line arguments
-     */
+    static Operation operation;
+    static InputHandler inputHandler;
+    static OutputHandler outputHandler;
+    public static BigInt input[];
+    static BigInt result;
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Get input
+        try{
+            inputHandler = new InputHandler(args);
+        }catch(FileNotFoundException e){
+            System.err.println("ERROR - The input file was not found");
+            return;
+        }
+        input = inputHandler.getInput();
+        
+        // Decide for operation
+        switch(inputHandler.operation){
+            case 'a':
+                operation = new Add(input[0], input[1]);
+                break;
+            case 's':
+                operation = new Subtract(input[0], input[1]);
+                break;
+            case 'm':
+                operation = new Multiply(input[0], input[1]);
+                break;
+            case 'k':
+                operation = new Karatsuba(input[0], input[1]);
+                break;
+            default:
+                assert false;
+        }
+        
+        // Execute operation
+        result = operation.compute();
+        
+        // Give output
+        outputHandler = new OutputHandler(result, inputHandler.file.toString());
     }
     
 }
