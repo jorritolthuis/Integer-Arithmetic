@@ -52,6 +52,7 @@ public class InputHandler {
         String line;
         String bigInt1 = "";
         String bigInt2 = "";
+        int currentLength = 0;
         boolean sign = true;
         int radix = 10;
         String answer = "";
@@ -89,6 +90,11 @@ public class InputHandler {
                 String integer = lineScanner.next();
                 sign = getSign(integer);
                 bigInt1 = (!sign) ? removeSign(integer) : integer;
+                
+                //Ensure both number are the same length
+                if(currentLength < bigInt1.length()) {
+                    currentLength = bigInt1.length();
+                }
             }
             
             //Set y
@@ -96,6 +102,12 @@ public class InputHandler {
                 String integer = lineScanner.next();
                 sign = getSign(integer);
                 bigInt2 = (!sign) ? removeSign(integer) : integer;
+                
+                //Ensure both number are the same length
+                if(currentLength < bigInt2.length()) {
+                    currentLength = bigInt2.length();
+                    bigInt2 = setLeadingZeros(bigInt2, bigInt2.length());
+                }
             }
             
             //Set answer
@@ -105,10 +117,31 @@ public class InputHandler {
             }
         }
         
+        //Only use the same length when multiplication is used
+        // to save time on the other operations.
+        if(operation == 'm') {
+            bigInt1 = setLeadingZeros(bigInt1, currentLength);
+            bigInt2 = setLeadingZeros(bigInt2, currentLength);
+        }
+        
         input = new BigInt[]{
             new BigInt(bigInt1, sign, radix),
             new BigInt(bigInt2, sign, radix)
         };
+    }
+    
+    private String setLeadingZeros(String integer, int length) {
+        if(integer.length() == length) {
+            return integer;
+        }
+        
+        String zeros = "";
+        
+        for (int i = 0; i < length - integer.length(); i++) {
+            zeros += "0";
+        }
+        
+        return zeros.concat(integer);
     }
     
     private boolean getSign(String integer) {
