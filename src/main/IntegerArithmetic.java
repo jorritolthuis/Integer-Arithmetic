@@ -12,14 +12,17 @@ public class IntegerArithmetic {
     
     public static void main(String[] args) {
         // Get input
+        System.out.print("Start program:");
         try{
+            System.out.print("starting trying");
             inputHandler = new InputHandler(args);
+            System.out.print("tried");
         }catch(FileNotFoundException e){
             System.err.println("ERROR - The input file was not found");
             return;
         }
         input = inputHandler.getInput();
-        
+        System.out.println("deciding operation;");
         // Decide for operation
         switch(inputHandler.operation){
             case 'a':
