@@ -18,6 +18,7 @@ public class OutputHandler {
     
     public OutputHandler(BigInt output, File file) {
         this.result = output;
+        this.operation = IntegerArithmetic.inputHandler.operation;
         if(file != null){
             filename = file.getPath();
         }else{
@@ -43,24 +44,24 @@ public class OutputHandler {
         assert output.length() == 0;
         
         output.append("# [x] " + IntegerArithmetic.input[0] + "\n");
-        switch(operation){
+        switch(operation) {
             case 'a':
-                output.append("[add]");
+                output.append("# [add]");
                 break;
             case 's':
-                output.append("[subtract]");
+                output.append("# [subtract]");
                 break;
             case 'm':
-                output.append("multiply");
+                output.append("# [multiply]");
                 break;
             case 'k':
-                output.append("karatsuba");
+                output.append("# [karatsuba]");
                 break;
             default :
                 assert false;
                 break;
         }
-        output.append("# [add] with radix " + IntegerArithmetic.input[0].rad + "\n");
+        output.append(" with radix " + IntegerArithmetic.input[0].rad + "\n");
         output.append("# [y] " + IntegerArithmetic.input[1] + "\n\n");
         output.append("# [result] " + result);
         
