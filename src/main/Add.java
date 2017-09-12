@@ -22,8 +22,6 @@ public class Add extends Operation {
             for (int i = 0; i < minLength; i++) {
                 xi = Integer.parseInt((Character.toString(x.val.charAt(xLength - 1 - i))), x.rad);
                 yi = Integer.parseInt((Character.toString(y.val.charAt(yLength - 1 - i))), x.rad);
-                System.out.println("xi: " + xi);
-                System.out.println("yi: " + yi);
                 t = xi + yi + carry;
                 if (t >= x.rad) {
                     carry = 1;
@@ -32,7 +30,6 @@ public class Add extends Operation {
                     carry = 0;
                 }
                 z.val = Integer.toHexString(t) + z.val;
-                System.out.println("z: " + z.val);
             }
             if (carry == 1 && xLength != minLength) {
                 z.val = Integer.toHexString(Integer.parseInt(Character.toString(x.val.charAt(xLength - yLength - 1))) + carry) + z.val; //setting number right with carry
@@ -49,7 +46,6 @@ public class Add extends Operation {
             } else if (carry == 1 && yLength == xLength) {
                 z.val = Integer.toHexString(carry) + z.val;
             }
-            System.out.println("Final result: " + z.val);
             return z;
         } else if (x.isPositive && !y.isPositive) {
             y.isPositive = true;
