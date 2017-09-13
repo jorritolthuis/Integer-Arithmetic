@@ -4,11 +4,11 @@ import java.io.FileNotFoundException;
 
 public class IntegerArithmetic {
 
-    static Operation operation;
+    static Operation[] operation;
     static InputHandler inputHandler;
     static OutputHandler outputHandler;
     public static BigInt input[];
-    static BigInt result;
+    static BigInt[] results;
     
     public static void main(String[] args) {
         // Get input
@@ -22,30 +22,39 @@ public class IntegerArithmetic {
             return;
         }
         input = inputHandler.getInput();
+        operation = new Operation[input.length];
         System.out.println("deciding operation;");
         // Decide for operation
-        switch(inputHandler.operation){
-            case 'a':
-                operation = new Add(input[0], input[1]);
-                break;
-            case 's':
-                operation = new Subtract(input[0], input[1]);
-                break;
-            case 'm':
-                operation = new Multiply(input[0], input[1]);
-                break;
-            case 'k':
-                operation = new Karatsuba(input[0], input[1]);
-                break;
-            default:
-                assert false;
+        for (int i = 0; i < inputHandler.operation.length && inputHandler.operation[i] != 0; i++) {
+            switch(inputHandler.operation[i]){
+                case 'a':
+                    operation[i] = new Add(input[i*2], input[i*2 + 1]);
+                    break;
+                case 's':
+                    operation[i] = new Subtract(input[i*2], input[i*2 + 1]);
+                    break;
+                case 'm':
+                    operation[i] = new Multiply(input[i*2], input[i*2 + 1]);
+                    break;
+                case 'k':
+                    operation[i] = new Karatsuba(input[i*2], input[i*2 + 1]);
+                    break;
+                default:
+                    assert false;
+            }
+        }
+        
+        results = new BigInt[inputHandler.operation.length];
+        
+        for (int i = 0; i < results.length && operation[i] != null; i++) {
+            results[i] = operation[i].compute();
         }
         
         // Execute operation
-        result = operation.compute();
+        
         
         // Give output
-        outputHandler = new OutputHandler(result, inputHandler.file);
+        outputHandler = new OutputHandler(results, inputHandler.file);
         outputHandler.giveOutput();
     }
     

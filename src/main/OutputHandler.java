@@ -9,15 +9,15 @@ import main.IntegerArithmetic;
 
 public class OutputHandler {
     StringBuilder output = new StringBuilder();
-    BigInt result;
+    BigInt[] results;
     String filename; // Input file, or null
     
-    char operation; // Get from main class (if possible directly, so this can be removed)
+    char[] operation; // Get from main class (if possible directly, so this can be removed)
     int nAdd;
     int nMultiply;
     
-    public OutputHandler(BigInt output, File file) {
-        this.result = output;
+    public OutputHandler(BigInt[] output, File file) {
+        this.results = output;
         this.operation = IntegerArithmetic.inputHandler.operation;
         if(file != null){
             filename = file.getPath();
@@ -42,32 +42,33 @@ public class OutputHandler {
     
     private void constructString(){
         assert output.length() == 0;
-        
-        output.append("# [x] " + IntegerArithmetic.input[0] + "\n");
-        switch(operation) {
-            case 'a':
-                output.append("# [add]");
-                break;
-            case 's':
-                output.append("# [subtract]");
-                break;
-            case 'm':
-                output.append("# [multiply]");
-                break;
-            case 'k':
-                output.append("# [karatsuba]");
-                break;
-            default :
-                assert false;
-                break;
-        }
-        output.append(" with radix " + IntegerArithmetic.input[0].rad + "\n");
-        output.append("# [y] " + IntegerArithmetic.input[1] + "\n\n");
-        output.append("# [result] " + result);
-        
-        if(operation == 'm' || operation == 'k'){
-            output.append("\n\n# Number of additions = " + nAdd);
-            output.append("\n\n# Number of multiplications = " + nMultiply);
+        for(int i = 0; i < results.length && operation[i] != 0; i++) {
+            output.append("# [x] " + IntegerArithmetic.input[i*2] + "\n");
+            switch(operation[i]) {
+                case 'a':
+                    output.append("# [add]");
+                    break;
+                case 's':
+                    output.append("# [subtract]");
+                    break;
+                case 'm':
+                    output.append("# [multiply]");
+                    break;
+                case 'k':
+                    output.append("# [karatsuba]");
+                    break;
+                default :
+                    assert false;
+                    break;
+            }
+            output.append(" with radix " + IntegerArithmetic.input[i*2].rad + "\n");
+            output.append("# [y] " + IntegerArithmetic.input[i*2 + 1] + "\n\n");
+            output.append("# [result] " + results[i] + "\n\n");
+
+            if(operation[i] == 'm' || operation[i] == 'k'){
+                output.append("# Number of additions = " + nAdd);
+                output.append("\n\n# Number of multiplications = " + nMultiply);
+            }
         }
     }
 }
