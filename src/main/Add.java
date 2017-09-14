@@ -46,7 +46,7 @@ public class Add extends Operation {
             } else if (carry == 1 && yLength == xLength) { //add another integer in the beginning of the string if carry is set
                 z.val = Integer.toHexString(carry) + z.val;
             }*/
-            System.out.println("z: " + z.val);
+            //System.out.println("z: " + z.val);
             int nTimes =0;
             while(carry == 1 && (xLength > (yLength+nTimes)))
             {
@@ -72,7 +72,7 @@ public class Add extends Operation {
                 z.val = Integer.toHexString(t) + z.val; //add number to string and copy already calculated part of the string
                 nTimes++;
             }
-            System.out.println("xL: " + xLength + " yL: " + yLength + " nTimes: " + nTimes);
+            //System.out.println("xL: " + xLength + " yL: " + yLength + " nTimes: " + nTimes);
             if(carry ==1) //setting first one because while broke because length is the same
             {
                 z.val = Integer.toHexString(carry) + z.val;
@@ -85,7 +85,7 @@ public class Add extends Operation {
             {
                 z.val = y.val.substring(0, yLength - xLength -nTimes) + z.val;
             }
-            System.out.println("z: " + z.val);
+            //System.out.println("z: " + z.val);
             return z;
         } else if (x.isPositive && !y.isPositive) { // adding a positive and negative nummer is same as substracting
             y.isPositive = true;
