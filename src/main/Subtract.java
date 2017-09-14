@@ -11,11 +11,27 @@ public class Subtract extends Operation {
         /*
         
         xpos - ypos = normal
-        xpos - yneg = xpos + ypos >> to add
+        xpos - yneg = xpos + ypos >> to add TODO:  doorsturen
         xneg - yneg = xneg + ypos = ypos - xpos >> switch
-        xneg - ypos = xneg + yneg >> to add
+        xneg - ypos = xneg + yneg >> to add TODO:  doorsturen
         
         */
+        
+        if ((x.isPositive) && !(y.isPositive)){
+        y.isPositive = true;
+        /*
+        Doorsturen ADD
+        */
+        }
+        
+        if (!(x.isPositive) && (y.isPositive)){
+            y.isPositive = false;
+            /*
+            Doorsturen ADD
+            */
+        }
+            
+        
         if (!(x.isPositive ) && !(y.isPositive)){
             BigInt temp = x;
             x = y;
@@ -65,8 +81,14 @@ public class Subtract extends Operation {
                 }
             } else if (carry == 1 && yLength == xLength) {
                 z.val = Integer.toHexString(carry) + z.val;
+                z.isPositive = false;
             }
-            return z;                       //waar wordt " - " gedaan?
+            
+            if (yLength < xLength){
+                z.isPositive = false;
+            }
+            
+            return z;                       
         }
 
     
