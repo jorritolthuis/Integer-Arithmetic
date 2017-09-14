@@ -9,7 +9,7 @@ public class Add extends Operation {
     @Override
     public BigInt compute() {
 
-        if ((x.isPositive && y.isPositive) || !(x.isPositive && y.isPositive)) {
+        if ((x.isPositive && y.isPositive) || (!x.isPositive && !y.isPositive)) {
             int xLength = x.val.length();
             int yLength = y.val.length();
             int minLength = Math.min(xLength, yLength);
@@ -20,16 +20,16 @@ public class Add extends Operation {
             z.rad = x.rad;
             int t;
             for (int i = 0; i < minLength; i++) {
-                xi = Integer.parseInt((Character.toString(x.val.charAt(xLength - 1 - i))), x.rad);
+                xi = Integer.parseInt((Character.toString(x.val.charAt(xLength - 1 - i))), x.rad); //get the last digits to add
                 yi = Integer.parseInt((Character.toString(y.val.charAt(yLength - 1 - i))), x.rad);
-                t = xi + yi + carry;
-                if (t >= x.rad) {
+                t = xi + yi + carry; 
+                if (t >= x.rad) { //if number is greater than the base: set carry and substract base from number 
                     carry = 1;
                     t = t - x.rad;
                 } else {
                     carry = 0;
                 }
-                z.val = Integer.toHexString(t) + z.val;
+                z.val = Integer.toHexString(t) + z.val; //add number to string and copy already calculated part of the string
             }
             if (carry == 1 && xLength != minLength) {
                 z.val = Integer.toHexString(Integer.parseInt(Character.toString(x.val.charAt(xLength - yLength - 1))) + carry) + z.val; //setting number right with carry
@@ -43,7 +43,7 @@ public class Add extends Operation {
                 {
                     z.val = y.val.substring(0, yLength - xLength - 1) + z.val;
                 }
-            } else if (carry == 1 && yLength == xLength) {
+            } else if (carry == 1 && yLength == xLength) { //add another integer in the beginning of the string if carry is set
                 z.val = Integer.toHexString(carry) + z.val;
             }
             return z;
