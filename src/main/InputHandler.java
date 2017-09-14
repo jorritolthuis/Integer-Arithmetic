@@ -3,11 +3,8 @@ package main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.ArrayList;
 
-/**
- *
- * @author s147889
- */
 public class InputHandler {
     Scanner scanner;
     final String commentStart = "#";
@@ -22,7 +19,6 @@ public class InputHandler {
     final String isY = "[y]";
     final String isAnswer = "[answer]";
     final String consoleEndWord = "end";
-    final int maxInputs = 10;
     /**
      * every even index is the [x]
      * and every uneven index is the [y]
@@ -34,7 +30,7 @@ public class InputHandler {
      * m - multiply
      * k - karatsuba
      */
-    char[] operation;
+    ArrayList<Character> operation;
     File file;
 
     public InputHandler(String[] args) throws FileNotFoundException {
@@ -56,14 +52,10 @@ public class InputHandler {
 
     private void handle() {
         String line;
-        int inputCounter = -1;
-        String[] bigInt1 = new String[maxInputs];
-        String[] bigInt2 = new String[maxInputs];
-        int[] maxLength = new int[maxInputs];
-        boolean[] signs = new boolean[maxInputs*2];
-        int[] radix = new int[10];
-        String[] answer = new String[maxInputs];
-        operation = new char[maxInputs];
+        ArrayList<BigInt> bigInt1 = new ArrayList<>();
+        ArrayList<BigInt> bigInt2 = new ArrayList<>();
+        ArrayList<String> answer = new ArrayList<>();
+        ArrayList<Character> operation = new ArrayList<>();
         
         while(scanner.hasNextLine()) {
             line = scanner.nextLine();
@@ -83,12 +75,12 @@ public class InputHandler {
             
             //If radix then set it
             if(firstWord.equals(isRadix)) {
-                inputCounter++;
-                if(inputCounter >= maxInputs) {
-                    System.err.println("Too many inputs at once");
-                    return;
-                }
-                radix[inputCounter] = lineScanner.nextInt();
+                int rad = lineScanner.nextInt();
+                System.err.println(rad);
+                bigInt1.add(new BigInt("", true, rad)); // Create two new BigInts
+                bigInt2.add(new BigInt("", true, rad));
+                answer.add("");
+                operation.add('@'); // Placeholder
             }
             
             //If operation then set it
@@ -96,36 +88,27 @@ public class InputHandler {
             // operation.
             for (String op : operations) {
                 if (firstWord.equals(op)) {
-                    operation[inputCounter] = op.charAt(1);
+                    operation.set(operation.size()-1, op.charAt(1));
                 }
             }
             
             //Set x
             if(firstWord.equals(isX)) {
-                String integer = lineScanner.next();
-                signs[inputCounter*2] = getSign(integer);
-                bigInt1[inputCounter] = removeSign(integer);
-                
-                if(maxLength[inputCounter] < bigInt1[inputCounter].length()) {
-                    maxLength[inputCounter] = bigInt1[inputCounter].length();
-                }
+                String xval = lineScanner.next();
+                bigInt1.get(bigInt1.size()-1).val = removeSign(xval);
+                bigInt1.get(bigInt1.size()-1).isPositive = getSign(xval);
             }
             
             //Set y
             if(firstWord.equals(isY)) {
-                String integer = lineScanner.next();
-                signs[inputCounter*2 + 1] = getSign(integer);
-                bigInt2[inputCounter] = removeSign(integer);
-                
-                //Ensure both number are the same length
-                if(maxLength[inputCounter] < bigInt2[inputCounter].length()) {
-                    maxLength[inputCounter] = bigInt2[inputCounter].length();
-                }
+                String yval = lineScanner.next();
+                bigInt2.get(bigInt2.size()-1).val = removeSign(yval);
+                bigInt2.get(bigInt2.size()-1).isPositive = getSign(yval);
             }
             
             //Set answer
             if(firstWord.equals(isAnswer)) {
-                answer[inputCounter] = lineScanner.next();
+                answer.set(answer.size()-1, lineScanner.next());
             }
             
             //If end is reached of the System.in
@@ -136,19 +119,23 @@ public class InputHandler {
         
         //Only use the same length when multiplication is used
         // to save time on the other operations.
-        for (int i = 0; i < maxInputs; i++) {
-            for (int j = 0; j < operation.length && operation[i] != 0; j++) {
-                if(operation[j] == 'm') {
-                    bigInt1[i] = setLeadingZeros(bigInt1[i], maxLength[i]);
-                    bigInt2[i] = setLeadingZeros(bigInt2[i], maxLength[i]);
-                }
+        
+        for(int i=0; i<bigInt1.size(); ++i){
+            if(bigInt1.get(i).val.length() < bigInt2.get(i).val.length()){
+                setLeadingZeros(bigInt1.get(i).val, bigInt2.get(i).val.length());
+            }
+            
+            if(bigInt1.get(i).val.length() > bigInt2.get(i).val.length()){
+                setLeadingZeros(bigInt2.get(i).val, bigInt1.get(i).val.length());
             }
         }
         
-        input = new BigInt[2*maxInputs];
-        for (int i = 0; i < input.length; i += 2) {
-            input[i] = new BigInt(bigInt1[i/2], signs[i], radix[i/2]);
-            input[i + 1] = new BigInt(bigInt2[i/2], signs[i + 1], radix[i/2]); 
+        this.operation = operation;
+        
+        input = new BigInt[2*bigInt1.size()];
+        for (int i = 0; i < bigInt1.size(); i+=2) {
+            input[i] = bigInt1.get(i);
+            input[i + 1] = bigInt2.get(i);
         }
     }
     
@@ -163,7 +150,8 @@ public class InputHandler {
             zeros += "0";
         }
         
-        return zeros.concat(integer);
+        integer = zeros.concat(integer);
+        return integer;
     }
     
     private boolean getSign(String integer) {
@@ -197,10 +185,10 @@ public class InputHandler {
 
     private String removeSign(String integer) {
         if(integer.startsWith("-")) {
-            System.out.println(integer.substring(1));
+            //System.out.println(integer.substring(1));
             return integer.substring(1);
         }
-        System.out.println(integer);
+        //System.out.println(integer);
         return integer;
     }
 }

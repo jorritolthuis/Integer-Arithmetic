@@ -18,7 +18,10 @@ public class OutputHandler {
     
     public OutputHandler(BigInt[] output, File file) {
         this.results = output;
-        this.operation = IntegerArithmetic.inputHandler.operation;
+        operation = new char[IntegerArithmetic.inputHandler.operation.size()];
+        for(int i=0; i<IntegerArithmetic.inputHandler.operation.size(); ++i){
+            operation[i] = IntegerArithmetic.inputHandler.operation.get(i);
+        }
         if(file != null){
             filename = file.getPath();
         }else{

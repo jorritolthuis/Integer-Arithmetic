@@ -22,11 +22,11 @@ public class IntegerArithmetic {
             return;
         }
         input = inputHandler.getInput();
-        operation = new Operation[input.length];
+        operation = new Operation[input.length/2];
         System.out.println("deciding operation;");
         // Decide for operation
-        for (int i = 0; i < inputHandler.operation.length && inputHandler.operation[i] != 0; i++) {
-            switch(inputHandler.operation[i]){
+        for (int i = 0; i < inputHandler.operation.size(); i++) {
+            switch(inputHandler.operation.get(i)){
                 case 'a':
                     operation[i] = new Add(input[i*2], input[i*2 + 1]);
                     break;
@@ -44,7 +44,7 @@ public class IntegerArithmetic {
             }
         }
         
-        results = new BigInt[inputHandler.operation.length];
+        results = new BigInt[inputHandler.operation.size()];
         
         for (int i = 0; i < results.length && operation[i] != null; i++) {
             results[i] = operation[i].compute();
