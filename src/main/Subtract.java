@@ -7,131 +7,59 @@ public class Subtract extends Operation {
     }
 
     public BigInt compute() {
-        /*
+        boolean sign = x.isPositive == y.isPositive;
         
-        xpos - ypos = normal
-        xpos - yneg = xpos + ypos >> to add 
-        xneg - yneg = xneg + ypos = ypos - xpos >> switch
-        xneg - ypos = xneg + yneg >> to add 
-        
-         */
-
-        if (!(x.isPositive) && !(y.isPositive)) {   // Subtracting two negative numbers is the same as turning both positive and switching the subtract order.
-            BigInt temp = x;
-            x = y;
-            y = temp;
-            x.isPositive = true;
-            y.isPositive = true;
+        if(!sign) {
+            y.isPositive = !y.isPositive;
+            return new Add(x,y).compute();
         }
-
-        if ((x.isPositive && y.isPositive)) {
-            int xLength = x.val.length();
-            int yLength = y.val.length();
-            int minLength = Math.min(xLength, yLength);
-            int carry = 0;
+        
+        String answer = "0";
+        int maxLength;
+        int carry = Integer.parseInt("0", rad);
+        String largestNumber;
+        String smallerNumber;
+        
+        int compareNumbers = compare(x.val, y.val);
+        
+        if (compareNumbers > 0) {
+            maxLength = x.val.length();
+            largestNumber = x.val;
+            smallerNumber = y.val;
+            sign = !x.isPositive;
+        } else if(compareNumbers < 0) {
+            maxLength = y.val.length();
+            largestNumber = y.val;
+            smallerNumber = x.val;
+            sign = !y.isPositive;
+        } else {
+            return new BigInt("0", true, rad);
+        }
+        
+        for (int i = maxLength - 1; i >= 0; i--) {
+            int correctxiIndex = i - (maxLength - largestNumber.length());
+            int correctyiIndex = i - (maxLength - smallerNumber.length());
             int xi = 0;
             int yi = 0;
-            int nTimes = 0;
-            BigInt z = new BigInt("", x.isPositive, x.rad);
-            z.rad = x.rad;
-            int zLength = z.val.length();
-            int t;
-            for (int i = 0; i < minLength; i++) {
-                xi = Integer.parseInt((Character.toString(x.val.charAt(xLength - 1 - i))), x.rad);
-                yi = Integer.parseInt((Character.toString(y.val.charAt(yLength - 1 - i))), x.rad);
-                //
-                t = xi - yi - carry;    //carry also needs to get deducted from xi
-                if (t < 0) {
-                    t = x.rad + t;  //t < 0 so t will always be at most x.rad
-                    carry = 1;
-                    
-                } else {
-                    carry = 0;
-                }
-                z.val = Integer.toHexString(t) + z.val;
+            if(correctxiIndex >= 0) {
+                xi = Integer.parseInt(largestNumber.substring(correctxiIndex, correctxiIndex+1), rad);
             }
-            
-            
-            while (carry == 1 && (xLength > (yLength+nTimes))) {
-                
-                t = Integer.parseInt(Character.toString(x.val.charAt(xLength -yLength -1 -nTimes))) -carry;
-                if (t < 0) {
-                    t = x.rad + t;
-                    carry = 1;
-                } else {
-                    carry = 0;
-                }
-                nTimes++;
-                z.val = Integer.toHexString(t) + z.val; //add number to string and copy already calculated part of the string
+            if(correctyiIndex >= 0) {
+                yi = Integer.parseInt(smallerNumber.substring(correctyiIndex, correctyiIndex+1), rad);
             }
+            int positionInAnswer = reverseIndex(i, maxLength);
+            int value = xi - yi - carry;
             
-            while (carry == 1 && (yLength > (xLength+nTimes))) {
-                
-                t = Integer.parseInt(Character.toString(y.val.charAt(yLength -xLength -1 -nTimes))) -carry;
-                if (t < 0) {
-                    t = x.rad + t;
-                    carry = 1;
-                } else { 
-                    carry = 0;
-                }
-                nTimes++;
-                z.val = Integer.toHexString(t) + z.val;
-                       
-            }
-            
-            if(carry == 1) { //Same length
-            
-                z.val = Integer.toHexString(carry) + z.val;
-            }
-            else if (xLength > (yLength + nTimes)) // copying the rest of the string from x because x is a longer number
-            {
-                z.val = x.val.substring(0, xLength - yLength -nTimes) + z.val;
-            }            
-            else if (yLength > (xLength + nTimes))// copying the rest of the string from y because y is a longer number
-            {
-                z.val = y.val.substring(0, yLength - xLength -nTimes) + z.val;
-            }
-            
-            /*      
-            
-            if (carry == 1 && xLength != minLength) {
-                z.val = Integer.toHexString(Integer.parseInt(Character.toString(x.val.charAt(xLength - yLength - 1))) - carry) + z.val; //setting number right with carry
-                if (xLength - yLength > 1) //checking wheter part of number just have to be copied
-                {
-                    z.val = x.val.substring(0, xLength - yLength - 1) + z.val;
-                }
-            } else if (carry == 1 && yLength != minLength) {
-                z.val = Integer.toHexString(Integer.parseInt(Character.toString(y.val.charAt(yLength - xLength - 1))) - carry) + z.val; //setting number right with carry
-                if (yLength - xLength > 1) //checking wheter part of number just have to be copied
-                {
-                    z.val = y.val.substring(0, yLength - xLength - 1) + z.val;
-                }
-            } else if (carry == 1 && yLength == xLength) {
-                z.val = Integer.toHexString(carry) + z.val;
-                z.isPositive = false;
+            if(value < 0) {
+                carry = 1;
+                value = rad + value;
+            } else {
+                carry = 0;
             }
 
-            if (yLength < xLength) {
-                z.isPositive = false;
-            }*/
-
-            if ((xLength < yLength) || (zLength > xLength)) {
-                z.isPositive = false;
-            }
-            
-            return z;
-
-        } else if ((x.isPositive) && !(y.isPositive)) { //Subtracting a negative from a positive number is the same as turning the negative to positive and adding them.
-            y.isPositive = true;
-            Operation SubPosNeg = new Add(y, x);
-            return SubPosNeg.compute();
-
-        } else if (!(x.isPositive) && (y.isPositive)) { //Subtracting a positive from a negative number is the same as turning the positive to negative and adding them.
-            y.isPositive = false;
-            Operation SubNegPos = new Add(x, y);
-            return SubNegPos.compute();
+            value = value % rad;
+            answer = addSingleDigit(value, reverseIndex(positionInAnswer, answer.length()), answer, false);
         }
-
-        return null;
+        return new BigInt(answer, sign, rad);
     }
 }
