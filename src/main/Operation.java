@@ -36,15 +36,17 @@ abstract class Operation {
      * The position corresponds to the index of the array
      * that is created from <code>answer.toCharArray()</code>.
      * @param answer the number to which the digit needs to be added.
+     * @param isDigitACarry true if the digit is a carry. This is used to handle
+     * leading zeros in the answer.
      * @return returns answer + digit, the carry is handled as well.
      */
-    String addSingleDigit(int digit, int position, String answer) {
+    String addSingleDigit(int digit, int position, String answer, boolean isDigitACarry) {
         assert digit < rad;
-        if(digit == 0) {
+        if(digit == 0 && isDigitACarry) {
             return answer;
         }
         if(position == -1) {
-            return Integer.toString(digit).concat(answer);
+            return String.valueOf(Character.forDigit(digit, rad)).concat(answer);
         }
         int value = digit + Integer.parseInt(answer.substring(position, position + 1), rad);
         nAdd++;
@@ -54,7 +56,7 @@ abstract class Operation {
         char[] answerAsArray = answer.toCharArray();
         answerAsArray[position] = Character.forDigit(setAnswer, rad);
         
-        return addSingleDigit(newCarry, --position, String.valueOf(answerAsArray));
+        return addSingleDigit(newCarry, --position, String.valueOf(answerAsArray), true);
     }
     
     /**
@@ -69,5 +71,24 @@ abstract class Operation {
      */
     int reverseIndex(int index, int maxLength) {
         return maxLength - index - 1;
+    }
+    
+    int compare(String b1, String b2) {
+        if(b1.length() > b2.length()) {
+            return 1;
+        }
+        if(b1.length() < b2.length()) {
+            return -1;
+        }
+        
+        for (int i = 0; i < b1.length(); i++) {
+            char charB1 = b1.charAt(i);
+            char charB2 = b2.charAt(i);
+            if(charB1 != charB2) {
+                return (charB1 > charB2) ? 1 : -1;
+            }
+        }
+        
+        return 0;
     }
 }

@@ -21,10 +21,10 @@ public class Multiply extends Operation {
                 int carry = value / rad;
                 
                 value = value % rad;
-                answer = addSingleDigit(value, reverseIndex(positionInAnswer, answer.length()), answer);
+                answer = addSingleDigit(value, reverseIndex(positionInAnswer, answer.length()), answer, false);
                 
                 if(carry > 0) {
-                    answer = addSingleDigit(carry, reverseIndex(positionInAnswer, answer.length()) - 1, answer);
+                    answer = addSingleDigit(carry, reverseIndex(positionInAnswer, answer.length()) - 1, answer, true);
                 }
             }
         }
