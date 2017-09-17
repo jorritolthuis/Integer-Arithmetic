@@ -25,6 +25,7 @@ public class Subtract extends Operation {
         }
 
         if ((x.isPositive && y.isPositive)) {
+            boolean check = false;
             int xLength = x.val.length();
             int yLength = y.val.length();
             int minLength = Math.min(xLength, yLength);
@@ -36,6 +37,32 @@ public class Subtract extends Operation {
             z.rad = x.rad;
             int zLength = z.val.length();
             int t;
+
+            if (yLength > xLength) {
+                BigInt temp = x;
+                x = y;
+                y = temp;
+                check = true;       //checking if we are doing -(B-A) and thus have to make the result of B-A negative.
+            }
+
+            if (xLength == yLength) {   //on equal size, check which is the bigger number and subtract the smaller from the bigger A-B <=> -(B-A)
+                for (int j = 0; j < xLength - 1; j++) {
+                    xi = Integer.parseInt((Character.toString(x.val.charAt(j))), x.rad);
+                    yi = Integer.parseInt((Character.toString(y.val.charAt(j))), x.rad);
+                    if (xi > yi) {  //checking from the first digit onward, once the x digit is greater than its y counterpart, x is bigger 
+                        break;
+                    } else if (xi < yi) {//checking from the first digit onward, once the y digit is greater than its x counterpart, y is bigger
+                        //xi = yi shows us nothing 
+                        BigInt temp = x;
+                        x = y;
+                        y = temp;
+                        check = true;       //checking if we are doing -(B-A) and thus have to make the result of B-A negative.
+                        break;
+                    }
+                }
+
+            }
+
             for (int i = 0; i < minLength; i++) {
                 xi = Integer.parseInt((Character.toString(x.val.charAt(xLength - 1 - i))), x.rad);
                 yi = Integer.parseInt((Character.toString(y.val.charAt(yLength - 1 - i))), x.rad);
@@ -44,17 +71,16 @@ public class Subtract extends Operation {
                 if (t < 0) {
                     t = x.rad + t;  //t < 0 so t will always be at most x.rad
                     carry = 1;
-                    
+
                 } else {
                     carry = 0;
                 }
                 z.val = Integer.toHexString(t) + z.val;
             }
-            
-            
-            while (carry == 1 && (xLength > (yLength+nTimes))) {
-                
-                t = Integer.parseInt(Character.toString(x.val.charAt(xLength -yLength -1 -nTimes))) -carry;
+
+            while (carry == 1 && (xLength > (yLength + nTimes))) {
+
+                t = Integer.parseInt(Character.toString(x.val.charAt(xLength - yLength - 1 - nTimes))) - carry;
                 if (t < 0) {
                     t = x.rad + t;
                     carry = 1;
@@ -64,34 +90,35 @@ public class Subtract extends Operation {
                 nTimes++;
                 z.val = Integer.toHexString(t) + z.val; //add number to string and copy already calculated part of the string
             }
-            
-            while (carry == 1 && (yLength > (xLength+nTimes))) {
-                
-                t = Integer.parseInt(Character.toString(y.val.charAt(yLength -xLength -1 -nTimes))) -carry;
+
+            while (carry == 1 && (yLength > (xLength + nTimes))) {
+
+                t = Integer.parseInt(Character.toString(y.val.charAt(yLength - xLength - 1 - nTimes))) - carry;
                 if (t < 0) {
                     t = x.rad + t;
                     carry = 1;
-                } else { 
+                } else {
                     carry = 0;
                 }
                 nTimes++;
                 z.val = Integer.toHexString(t) + z.val;
-                       
+
             }
+
+                //Onderstaande same Length & yLength > xLength code waarschijnlijk niet meer nodig vanwege if-statements bovenaan
             
-            if(carry == 1) { //Same length
+             if(carry == 1) { //Same length
             
                 z.val = Integer.toHexString(carry) + z.val;
             }
             else if (xLength > (yLength + nTimes)) // copying the rest of the string from x because x is a longer number
             {
-                z.val = x.val.substring(0, xLength - yLength -nTimes) + z.val;
-            }            
-            else if (yLength > (xLength + nTimes))// copying the rest of the string from y because y is a longer number
+                z.val = x.val.substring(0, xLength - yLength - nTimes) + z.val;
+            } else if (yLength > (xLength + nTimes))// copying the rest of the string from y because y is a longer number
             {
-                z.val = y.val.substring(0, yLength - xLength -nTimes) + z.val;
+                z.val = y.val.substring(0, yLength - xLength - nTimes) + z.val;
             }
-            
+
             /*      
             
             if (carry == 1 && xLength != minLength) {
@@ -114,11 +141,13 @@ public class Subtract extends Operation {
             if (yLength < xLength) {
                 z.isPositive = false;
             }*/
-
-            if ((xLength < yLength) || (zLength > xLength)) {
+          /*  if ((xLength < yLength) || (zLength > xLength)) {
+                z.isPositive = false;
+            }*/
+            if (check == true) {
                 z.isPositive = false;
             }
-            
+
             return z;
 
         } else if ((x.isPositive) && !(y.isPositive)) { //Subtracting a negative from a positive number is the same as turning the negative to positive and adding them.
