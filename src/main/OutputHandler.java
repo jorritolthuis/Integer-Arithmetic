@@ -70,7 +70,7 @@ public class OutputHandler {
 
             if(operation[i] == 'm' || operation[i] == 'k'){
                 output.append("# Number of additions = " + nAdd);
-                output.append("\n\n# Number of multiplications = " + nMultiply);
+                output.append("\n\n# Number of multiplications = " + nMultiply + "\n\n");
             }
         }
     }
