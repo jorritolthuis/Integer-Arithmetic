@@ -133,9 +133,9 @@ public class InputHandler {
         this.operation = operation;
         
         input = new BigInt[2*bigInt1.size()];
-        for (int i = 0; i < bigInt1.size(); i+=2) {
-            input[i] = bigInt1.get(i);
-            input[i + 1] = bigInt2.get(i);
+        for (int i = 0; i < bigInt1.size(); ++i) {
+            input[i*2] = bigInt1.get(i);
+            input[i*2 + 1] = bigInt2.get(i);
         }
     }
     
