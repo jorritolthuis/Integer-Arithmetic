@@ -76,6 +76,7 @@ public class InputHandler {
             //If radix then set it
             if(firstWord.equals(isRadix)) {
                 int rad = lineScanner.nextInt();
+                //System.err.println(rad);
                 bigInt1.add(new BigInt("", true, rad)); // Create two new BigInts
                 bigInt2.add(new BigInt("", true, rad));
                 answer.add("");
@@ -88,7 +89,6 @@ public class InputHandler {
             for (String op : operations) {
                 if (firstWord.equals(op)) {
                     operation.set(operation.size()-1, op.charAt(1));
-                    break;
                 }
             }
             
@@ -119,7 +119,6 @@ public class InputHandler {
         
         //Only use the same length when multiplication is used
         // to save time on the other operations.
-        //NOT NECESSARY!!!
         
         for(int i=0; i<bigInt1.size(); ++i){
             if(bigInt1.get(i).val.length() < bigInt2.get(i).val.length()){
@@ -134,13 +133,12 @@ public class InputHandler {
         this.operation = operation;
         
         input = new BigInt[2*bigInt1.size()];
-        for (int i = 0; i < bigInt1.size(); i++) {
+        for (int i = 0; i < bigInt1.size(); ++i) {
             input[i*2] = bigInt1.get(i);
             input[i*2 + 1] = bigInt2.get(i);
         }
     }
     
-//    @Deprecated
     private String setLeadingZeros(String integer, int length) {
         if(integer.length() == length) {
             return integer;
@@ -157,7 +155,10 @@ public class InputHandler {
     }
     
     private boolean getSign(String integer) {
-        return !integer.startsWith("-");
+        if(integer.startsWith("-")) {
+            return false;
+        }
+        return true;
     }
     
     private char operationToChar(String operation) {
