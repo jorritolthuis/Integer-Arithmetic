@@ -86,6 +86,7 @@ public class Add extends Operation {
                 z.val = y.val.substring(0, yLength - xLength -nTimes) + z.val;
             }
             //System.out.println("z: " + z.val);
+            nAdd++;
             return z;
         } else if (x.isPositive && !y.isPositive) { // adding a positive and negative nummer is same as substracting
             y.isPositive = true;

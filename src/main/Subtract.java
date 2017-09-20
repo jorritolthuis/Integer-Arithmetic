@@ -164,7 +164,7 @@ public class Subtract extends Operation {
             if (check == true) {
                 z.isPositive = false;
             }
-
+            nAdd++;
             return z;
 
         } else if ((x.isPositive) && !(y.isPositive)) { //Subtracting a negative from a positive number is the same as turning the negative to positive and adding them.
