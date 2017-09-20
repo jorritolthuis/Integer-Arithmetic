@@ -9,8 +9,7 @@ public class Karatsuba extends Operation {
     @Override
     public BigInt compute(){
         BigInt result = new BigInt("", true, x.rad);
-        
-        if(x.val.length() == 1 && y.val.length() == 1){ // If n==1 do simple multiplication
+        if(x.val.length() <= 1 && y.val.length() <= 1){ // If n==1 do simple multiplication
             Operation op = new Multiply(x, y);
             result = op.compute();
             super.nAdd = op.nAdd;
@@ -42,7 +41,7 @@ public class Karatsuba extends Operation {
             Operation opMiddleB = new Subtract(opMiddleA.compute(), xylo);
             BigInt middle = opMiddleB.compute();
             
-            // Get final result (first append 0's)
+            // Get final result (first append 0's, i.e. multiply by b^x)
             xyhi.val = xyhi.val + appender(n);
             middle.val = middle.val + appender(n/2);
             Operation opAddA = new Add(xyhi, middle);
