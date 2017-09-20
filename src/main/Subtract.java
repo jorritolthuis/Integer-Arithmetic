@@ -75,7 +75,7 @@ public class Subtract extends Operation {
                 } else {
                     carry = 0;
                 }
-                z.val = Integer.toHexString(t) + z.val;
+                z.val = Integer.toHexString(t) + z.val; //add number to string and copy already calculated part of the string
             }
 
             while (carry == 1 && (xLength > (yLength + nTimes))) {
@@ -105,13 +105,11 @@ public class Subtract extends Operation {
 
             }
 
-                //Onderstaande same Length & yLength > xLength code waarschijnlijk niet meer nodig vanwege if-statements bovenaan
-            
-             if(carry == 1) { //Same length
-            
+            //Onderstaande same Length & yLength > xLength code waarschijnlijk niet meer nodig vanwege if-statements bovenaan
+            if (carry == 1) { //Same length
+
                 z.val = Integer.toHexString(carry) + z.val;
-            }
-            else if (xLength > (yLength + nTimes)) // copying the rest of the string from x because x is a longer number
+            } else if (xLength > (yLength + nTimes)) // copying the rest of the string from x because x is a longer number
             {
                 z.val = x.val.substring(0, xLength - yLength - nTimes) + z.val;
             } else if (yLength > (xLength + nTimes))// copying the rest of the string from y because y is a longer number
@@ -141,7 +139,7 @@ public class Subtract extends Operation {
             if (yLength < xLength) {
                 z.isPositive = false;
             }*/
-          /*  if ((xLength < yLength) || (zLength > xLength)) {
+ /*  if ((xLength < yLength) || (zLength > xLength)) {
                 z.isPositive = false;
             }*/
             if (check == true) {
