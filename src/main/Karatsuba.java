@@ -19,9 +19,9 @@ public class Karatsuba extends Operation {
             //split
             int n = x.val.length();
             String xhi = x.val.substring(0, n/2);
-            String xlo = x.val.substring(n/2+1);
+            String xlo = x.val.substring(n/2);
             String yhi = y.val.substring(0, n/2);
-            String ylo = y.val.substring(n/2+1);
+            String ylo = y.val.substring(n/2);
             
             //calculate multiplications (recurse)
             Operation opxyhi = new Karatsuba(new BigInt(xhi, true, x.rad), new BigInt(yhi, true, y.rad));

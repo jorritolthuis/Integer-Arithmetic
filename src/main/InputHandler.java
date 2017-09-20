@@ -76,7 +76,7 @@ public class InputHandler {
             //If radix then set it
             if(firstWord.equals(isRadix)) {
                 int rad = lineScanner.nextInt();
-                System.err.println(rad);
+                //System.err.println(rad);
                 bigInt1.add(new BigInt("", true, rad)); // Create two new BigInts
                 bigInt2.add(new BigInt("", true, rad));
                 answer.add("");
