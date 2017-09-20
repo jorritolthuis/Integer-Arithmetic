@@ -9,7 +9,7 @@ public class Karatsuba extends Operation {
     @Override
     public BigInt compute(){
         BigInt result = new BigInt("", true, x.rad);
-        if(x.val.length() <= 1 && y.val.length() <= 1){ // If n==1 do simple multiplication
+        if(x.val.length() <= 1 || y.val.length() <= 1){ // If n==1 do simple multiplication
             Operation op = new Multiply(x, y);
             result = op.compute();
             super.nAdd = op.nAdd;
