@@ -26,7 +26,7 @@ public class Subtract extends Operation {
             maxLength = x.val.length();
             largestNumber = x.val;
             smallerNumber = y.val;
-            sign = !x.isPositive;
+            sign = x.isPositive;
         } else if(compareNumbers < 0) {
             maxLength = y.val.length();
             largestNumber = y.val;
@@ -53,6 +53,8 @@ public class Subtract extends Operation {
             if(value < 0) {
                 carry = 1;
                 value = rad + value;
+            } else if(value == 0 && i == 0) {
+                break;
             } else {
                 carry = 0;
             }
