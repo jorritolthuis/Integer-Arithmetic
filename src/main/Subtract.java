@@ -37,6 +37,25 @@ public class Subtract extends Operation {
             z.rad = x.rad;
             int zLength = z.val.length();
             int t;
+            
+            //Cut off leading zeros X
+            if (Integer.parseInt((Character.toString(x.val.charAt(0))), x.rad) == 0){
+
+                while (Integer.parseInt((Character.toString(x.val.charAt(0))), x.rad) == 0){    //Starting character still a 0
+                    x.val = x.val.substring(x.val.charAt(1), x.val.charAt(xLength-1) );         //Defining new string to start 1 character later
+                }
+            }
+            
+            //Cut off leading zeros Y
+            if (Integer.parseInt((Character.toString(y.val.charAt(0))), x.rad) == 0){
+
+                while (Integer.parseInt((Character.toString(y.val.charAt(0))), x.rad) == 0){    //Starting character still a 0
+                    y.val = y.val.substring(y.val.charAt(1), y.val.charAt(xLength-1) );         //Defining new string to start 1 character later
+                }
+            }
+            
+            
+            
 
             if (yLength > xLength) {
                 BigInt temp = x;
