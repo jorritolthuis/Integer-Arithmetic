@@ -72,7 +72,12 @@ abstract class Operation {
     int reverseIndex(int index, int maxLength) {
         return maxLength - index - 1;
     }
-    
+    /**
+     * Compares two numbers b1 and b2 and returns which one is bigger.
+     * @param b1 big number 1
+     * @param b2 big number 2
+     * @return Returns an integer: 1 if b1 &gt; b2, 0 if b1 == b2, -1 if b1 &lt; b2
+     */
     int compare(String b1, String b2) {
         if(b1.length() > b2.length()) {
             return 1;

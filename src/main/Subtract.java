@@ -9,9 +9,9 @@ public class Subtract extends Operation {
     public BigInt compute() {
         boolean sign = x.isPositive == y.isPositive;
         
-        if(!sign) {                         //Check if we are trying to subtract negative from positive or the other way around
-            y.isPositive = !y.isPositive;   //switch the sign (pos/neg) of the second number and send both through to Add as it's easier to compute there
-            return new Add(x,y).compute();
+        if(!sign) { //Check if we are trying to subtract negative from positive or the other way around
+            //switch the sign (pos/neg) of the second number and send both through to Add as it's easier to compute there
+            return new Subtract(new BigInt(x.val, x.isPositive, rad), new BigInt(y.val, !y.isPositive, rad)).compute();
         }
         
         String answer = "0";
