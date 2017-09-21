@@ -8,6 +8,9 @@ public class Add extends Operation {
 
     @Override
     public BigInt compute() {
+        stripNull(x);
+        stripNull(y);
+        
         boolean sign = x.isPositive == y.isPositive;
 
         if (!sign) {
