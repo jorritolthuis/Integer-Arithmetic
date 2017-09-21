@@ -7,6 +7,9 @@ public class Subtract extends Operation {
     }
 
     public BigInt compute() {
+        stripNull(x);
+        stripNull(y);
+        
         boolean sign = x.isPositive == y.isPositive;
         
         if(!sign) { //Check if we are trying to subtract negative from positive or the other way around

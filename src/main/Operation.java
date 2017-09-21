@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
 abstract class Operation {
@@ -95,5 +90,18 @@ abstract class Operation {
         }
         
         return 0;
+    }
+    
+    /**
+     * Strips leading zeros from front of BigInt
+     * @param x 
+     */
+    void stripNull(BigInt x){
+        System.err.println("abc " + x);
+        while(x.val.length() > 1 && x.val.charAt(0) == '0'){
+            x.val = x.val.substring(1);
+        }
+        
+        System.err.println("abc " + x);
     }
 }

@@ -8,6 +8,8 @@ public class Add extends Operation {
 
     @Override
     public BigInt compute() {
+        stripNull(x);
+        stripNull(y);
         /**
          * This variable is used to check whether it can be done easily with
          * subtract or not.
