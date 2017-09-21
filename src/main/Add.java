@@ -43,6 +43,7 @@ public class Add extends Operation {
                 answer = addSingleDigit(carry, reverseIndex(positionInAnswer, answer.length()) - 1, answer, true);
             }
         }
+        nAdd++;     //Add 1 to the counter for elementary additions/subtractions
         return new BigInt(answer, x.isPositive, rad);
     }
 }

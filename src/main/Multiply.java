@@ -28,7 +28,7 @@ public class Multiply extends Operation {
                 }
             }
         }
-        
+        nMultiply++;        //Add 1 to the counter for elementary multiplications
         return new BigInt(answer, sign, rad);
     }
 }
