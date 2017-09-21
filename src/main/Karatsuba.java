@@ -8,8 +8,9 @@ public class Karatsuba extends Operation {
 
     @Override
     public BigInt compute(){
+        fixLength();
         BigInt result = new BigInt("", true, x.rad);
-        if(x.val.length() <= 1 || y.val.length() <= 1){ // If n==1 do simple multiplication
+        if(x.val.length() <= 2 || y.val.length() <= 2){ // If n==1 do simple multiplication
             Operation op = new Multiply(x, y);
             result = op.compute();
             super.nAdd = op.nAdd;
@@ -23,14 +24,14 @@ public class Karatsuba extends Operation {
             String ylo = y.val.substring(n/2);
             
             //calculate multiplications (recurse)
-            Operation opxyhi = new Karatsuba(new BigInt(xhi, true, x.rad), new BigInt(yhi, true, y.rad));
-            Operation opxylo = new Karatsuba(new BigInt(xlo, true, x.rad), new BigInt(ylo, true, y.rad));
+            Operation opxyhi = new Karatsuba(new BigInt(xhi, x.isPositive, x.rad), new BigInt(yhi, y.isPositive, y.rad));
+            Operation opxylo = new Karatsuba(new BigInt(xlo, x.isPositive, x.rad), new BigInt(ylo, y.isPositive, y.rad));
             BigInt xyhi = opxyhi.compute();
             BigInt xylo = opxylo.compute();
 
             // Calculate (xhi+xlo)(yhi+ylo) == cross
-            Operation opxsum = new Add(new BigInt(xhi, true, x.rad), new BigInt(xlo, true, x.rad));
-            Operation opysum = new Add(new BigInt(yhi, true, y.rad), new BigInt(ylo, true, y.rad));
+            Operation opxsum = new Add(new BigInt(xhi, x.isPositive, x.rad), new BigInt(xlo, x.isPositive, x.rad));
+            Operation opysum = new Add(new BigInt(yhi, y.isPositive, y.rad), new BigInt(ylo, y.isPositive, y.rad));
             BigInt xsum = opxsum.compute();
             BigInt ysum = opysum.compute();
             Operation opcross = new Karatsuba(xsum, ysum);
@@ -72,5 +73,20 @@ public class Karatsuba extends Operation {
         String result = "";
         for(int i=0; i<n; ++i) result = result + "0";
         return result;
+    }
+    
+    private void fixLength(){
+        // Make both the same length
+        if(x.val.length()<y.val.length()){
+            x.val = appender(y.val.length()-x.val.length()) + x.val;
+        }else if(x.val.length()>y.val.length()){
+            y.val = appender(x.val.length()-y.val.length()) + y.val;
+        }
+        
+        // If they have an odd number of characters, make it even
+        if(x.val.length()%2 == 1){
+            x.val = appender(1) + x.val;
+            y.val = appender(1) + y.val;
+        }
     }
 }
