@@ -3,8 +3,8 @@ package main;
 abstract class Operation {
     BigInt x;
     BigInt y;
-    int nMultiply; // Should contains the number of multiplications needed to return
-    int nAdd; // Should contains the number of additions/subtractions needed to return
+    public int nMultiply = 0; // Should contains the number of multiplications needed to return
+    public int nAdd = 0; // Should contains the number of additions/subtractions needed to return
     int rad;
     
     Operation(BigInt x, BigInt y){

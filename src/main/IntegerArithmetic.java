@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 
 public class IntegerArithmetic {
 
-    static Operation[] operation;
-    static InputHandler inputHandler;
-    static OutputHandler outputHandler;
+    public static Operation[] operation;
+    public static InputHandler inputHandler;
+    public static OutputHandler outputHandler;
     public static BigInt input[];
     static BigInt[] results;
     

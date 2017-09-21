@@ -13,14 +13,18 @@ public class OutputHandler {
     String filename; // Input file, or null
     
     char[] operation; // Get from main class (if possible directly, so this can be removed)
-    int nAdd;
-    int nMultiply;
+    int[] nAdd;
+    int[] nMultiply;
     
     public OutputHandler(BigInt[] output, File file) {
         this.results = output;
-        operation = new char[IntegerArithmetic.inputHandler.operation.size()];
-        for(int i=0; i<IntegerArithmetic.inputHandler.operation.size(); ++i){
+        operation = new char[IntegerArithmetic.operation.length];
+        nAdd = new int[IntegerArithmetic.operation.length];
+        nMultiply = new int[IntegerArithmetic.operation.length];
+        for(int i = 0; i < IntegerArithmetic.inputHandler.operation.size(); ++i){
             operation[i] = IntegerArithmetic.inputHandler.operation.get(i);
+            nAdd[i] = IntegerArithmetic.operation[i].nAdd;
+            nMultiply[i] = IntegerArithmetic.operation[i].nMultiply;
         }
         if(file != null){
             filename = file.getPath();
@@ -69,8 +73,8 @@ public class OutputHandler {
             output.append("# [result] " + results[i] + "\n\n");
 
             if(operation[i] == 'm' || operation[i] == 'k'){
-                output.append("# Number of additions = " + nAdd);
-                output.append("\n\n# Number of multiplications = " + nMultiply + "\n\n");
+                output.append("# Number of additions = " + nAdd[i]);
+                output.append("\n\n# Number of multiplications = " + nMultiply[i] + "\n\n");
             }
         }
     }
