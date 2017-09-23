@@ -97,11 +97,8 @@ abstract class Operation {
      * @param x 
      */
     void stripNull(BigInt x){
-        System.err.println("abc " + x);
         while(x.val.length() > 1 && x.val.charAt(0) == '0'){
             x.val = x.val.substring(1);
         }
-        
-        System.err.println("abc " + x);
     }
 }
